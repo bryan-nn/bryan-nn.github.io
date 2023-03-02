@@ -12,6 +12,10 @@ body,
     font-family: tzy !important;
 }
 
+img {
+    border-style: none;
+    width:110px;
+}
 /* 滚动条 */
 ::-webkit-scrollbar {
     width: 8px;
