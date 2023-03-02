@@ -1,0 +1,373 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"><title>OncePie | OncePie</title><meta name="author" content="M Zhang"><meta name="copyright" content="M Zhang"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="前言 Keepalived使用的vrrp协议方式，虚拟路由冗余协议 (Virtual Router Redundancy Protocol，简称VRRP)；Heartbeat或Corosync是基于主机或网络服务的高可用方式；简单的说就是，Keepalived的目的是模拟路由器的高可用，Heartbeat或Corosync的目的是实现Service的高可用。所以一般Keepalived是实现前端高">
+<meta property="og:type" content="article">
+<meta property="og:title" content="OncePie">
+<meta property="og:url" content="http://example.com/posts/0.html">
+<meta property="og:site_name" content="OncePie">
+<meta property="og:description" content="前言 Keepalived使用的vrrp协议方式，虚拟路由冗余协议 (Virtual Router Redundancy Protocol，简称VRRP)；Heartbeat或Corosync是基于主机或网络服务的高可用方式；简单的说就是，Keepalived的目的是模拟路由器的高可用，Heartbeat或Corosync的目的是实现Service的高可用。所以一般Keepalived是实现前端高">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resourcel8mlyy.jpg?x-oss-process=style/webp">
+<meta property="article:published_time" content="2023-03-01T10:00:32.850Z">
+<meta property="article:modified_time" content="2023-03-01T10:00:58.011Z">
+<meta property="article:author" content="M Zhang">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resourcel8mlyy.jpg?x-oss-process=style/webp"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://example.com/posts/0"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/6.2.0/css/all.min.css" media="print" onload="this.media='all'"><link rel="stylesheet" href="https://cdn.staticfile.org/node-snackbar/0.1.16/snackbar.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":true,"languages":{"hits_empty":"找不到您查询的内容：${query}"}},
+  translate: {"defaultEncoding":2,"translateDelay":0,"msgToTraditionalChinese":"繁","msgToSimplifiedChinese":"簡"},
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: '复制成功',
+    error: '复制错误',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'mediumZoom',
+  Snackbar: {"chs_to_cht":"你已切换为繁体","cht_to_chs":"你已切换为简体","day_to_night":"你已切换为深色模式","night_to_day":"你已切换为浅色模式","bgLight":"#49b1f5","bgDark":"#2d3035","position":"bottom-left"},
+  source: {
+    justifiedGallery: {
+      js: 'https://cdn.staticfile.org/flickr-justified-gallery/2.1.2/fjGallery.min.js',
+      css: 'https://cdn.staticfile.org/flickr-justified-gallery/2.1.2/fjGallery.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'OncePie',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2023-03-01 18:00:58'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><link rel="stylesheet" href="/css/preloading.css"><link rel="stylesheet" href="/css/custom.css"  media="defer" onload="this.media='all'"><meta name="generator" content="Hexo 6.3.0"></head><body><div id="loading-box" onclick="document.getElementById(&quot;loading-box&quot;).classList.add(&quot;loaded&quot;)"><div class="loading-bg"><div class="loading-img"></div><div class="loading-image-dot"></div></div></div><script>const preloader = {
+  endLoading: () => {
+    document.body.style.overflow = 'auto';
+    document.getElementById('loading-box').classList.add("loaded")
+  },
+  initLoading: () => {
+    document.body.style.overflow = '';
+    document.getElementById('loading-box').classList.remove("loaded")
+
+  }
+}
+window.addEventListener('load',()=> { preloader.endLoading() })
+
+if (true) {
+  document.addEventListener('pjax:send', () => { preloader.initLoading() })
+  document.addEventListener('pjax:complete', () => { preloader.endLoading() })
+}</script><link rel="stylesheet" href="/css/process_bar.css"/><script src="https://cdn.staticfile.org/pace/1.2.4/pace.min.js"></script><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resource20220906115559_aff77.jpg?x-oss-process=style/webp" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><hr/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resourcel8mlyy.jpg?x-oss-process=style/webp')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">OncePie</a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search"><i class="fas fa-search fa-fw"></i><span> 搜索</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/gallery/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/books/"><i class="fa-fw fa fa-book"></i><span> 读书</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">无题</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2023-03-01T10:00:32.850Z" title="发表于 2023-03-01 18:00:32">2023-03-01</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2023-03-01T10:00:58.011Z" title="更新于 2023-03-01 18:00:58">2023-03-01</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-wordcount"><i class="far fa-file-word fa-fw post-meta-icon"></i><span class="post-meta-label">字数总计:</span><span class="word-count">3.1k</span><span class="post-meta-separator">|</span><i class="far fa-clock fa-fw post-meta-icon"></i><span class="post-meta-label">阅读时长:</span><span>10分钟</span></span><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">阅读量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><blockquote>
+<p>Keepalived使用的vrrp协议方式，虚拟路由冗余协议 (Virtual Router Redundancy Protocol，简称VRRP)；<br>Heartbeat或Corosync是基于主机或网络服务的高可用方式；简单的说就是，Keepalived的目的是模拟路由器的高可用，Heartbeat或Corosync的目的是实现Service的高可用。所以一般Keepalived是实现前端高可用，常用的前端高可用的组合有，就是我们常见的LVS+Keepalived、Nginx+Keepalived、HAproxy+Keepalived。<br>而Heartbeat或Corosync是实现服务的高可用，常见的组合有<br>Heartbeat v3(Corosync)+Pacemaker+NFS+Httpd 实现Web服务器的高可用、<br>Heartbeat v3(Corosync)+Pacemaker+NFS+MySQL 实现MySQL服务器的高可用。<br>总结一下，Keepalived中实现轻量级的高可用，一般用于前端高可用，且不需要共享存储，一般常用于两个节点的高可用。而Heartbeat(或Corosync)一般用于服务的高可用，且需要共享存储，一般用于多节点的高可用。这个问题我们说明白了，又有博友会问了，那heartbaet与corosync我们又应该选择哪个好啊，我想说我们一般用corosync，因为corosync的运行机制更优于heartbeat，就连从heartbeat分离出来的pacemaker都说在以后的开发当中更倾向于corosync，所以现在corosync+pacemaker是最佳组合。但说实话我对于软件没有任何倾向性，所以我把所有的集群软件都和大家说了一下，我认为不管什么软件，只要它能存活下来都有它的特点和应用领域，只有把特定的软件放在特定的位置才能发挥最大的作用，那首先我们得对这个软件有所有了解。学习一种软件的最好方法，就是去查官方文档。好了说了那么多希望大家有所收获，下面我们来说一说keepalived。</p>
+</blockquote>
+<h2 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h2><ul>
+<li><a href="#%E5%89%8D%E8%A8%80">前言</a></li>
+<li><a href="#keepalive%E7%AE%80%E4%BB%8B">keepalive简介</a></li>
+<li><a href="#keepalived%E6%90%AD%E5%BB%BA">keepalived 搭建</a></li>
+</ul>
+<h2 id="keepalive简介："><a href="#keepalive简介：" class="headerlink" title="keepalive简介："></a>keepalive简介：</h2><h3 id="1-Keepalived-定义"><a href="#1-Keepalived-定义" class="headerlink" title="1.Keepalived 定义"></a>1.Keepalived 定义</h3><blockquote>
+<p>Keepalived 是一个基于VRRP协议来实现的LVS服务高可用方案，可以利用其来避免单点故障。一个LVS服务会有2台服务器运行Keepalived，一台为主服务器（MASTER），一台为备份服务器（BACKUP），但是对外表现为一个虚拟IP，主服务器会发送特定的消息给备份服务器，当备份服务器收不到这个消息的时候，即主服务器宕机的时候， 备份服务器就会接管虚拟IP，继续提供服务，从而保证了高可用性。Keepalived是VRRP的完美实现，因此在介绍keepalived之前，先介绍一下VRRP的原理。</p>
+</blockquote>
+<ul>
+<li>负载均衡架构依赖于知名的IPVS内核模块，keepalive由一组检查器根据服务器的健康情况动态维护和管理服务器池。keepalive通过VRRP协议实现高可用架构。VRRP是路由灾备的实现基础。</li>
+<li>LVS核心是调度器，所有的数据请求需要经过调度器进行调度转发。万一调度器发生故障，整个集群系统全部崩溃，所以需要keepalive实现集群系统的高可用。</li>
+<li>部署两台或多台lvs调度器，仅有一台调度器做主服务器，其他为备用。当主发生故障后，keepalive可以自动将备用调度器作为主，实现整个集群系统的高负载，高可用</li>
+</ul>
+<h3 id="2-VRRP-协议简介"><a href="#2-VRRP-协议简介" class="headerlink" title="2.VRRP 协议简介"></a>2.VRRP 协议简介</h3><p>在现实的网络环境中，两台需要通信的主机大多数情况下并没有直接的物理连接。对于这样的情况，它们之间路由怎样选择？主机如何选定到达目的主机的下一跳路由，这个问题通常的解决方法有二种：</p>
+<ul>
+<li>在主机上使用动态路由协议(RIP、OSPF等)</li>
+<li>在主机上配置静态路由 <br>很明显，在主机上配置动态路由是非常不切实际的，因为管理、维护成本以及是否支持等诸多问题。配置静态路由就变得十分流行，但路由器(或者说默认网关default gateway)却经常成为单点故障。VRRP的目的就是为了解决静态路由单点故障问题，VRRP通过一竞选(election)协议来动态的将路由任务交给LAN中虚拟路由器中的某台VRRP路由器。</li>
+</ul>
+<h3 id="3-VRRP-工作机制"><a href="#3-VRRP-工作机制" class="headerlink" title="3.VRRP 工作机制"></a>3.VRRP 工作机制</h3><blockquote>
+<p>在一个VRRP虚拟路由器中，有多台物理的VRRP路由器，但是这多台的物理的机器并不能同时工作，而是由一台称为MASTER的负责路由工作，其它的都是BACKUP，MASTER并非一成不变，VRRP让每个VRRP路由器参与竞选，最终获胜的就是MASTER。MASTER拥有一些特权，比如，拥有虚拟路由器的IP地址，我们的主机就是用这个IP地址作为静态路由的。拥有特权的MASTER要负责转发发送给网关地址的包和响应ARP请求。<br>VRRP通过竞选协议来实现虚拟路由器的功能，所有的协议报文都是通过IP多播(multicast)包(多播地址224.0.0.18)形式发送的。虚拟路由器由VRID(范围0-255)和一组IP地址组成，对外表现为一个周知的MAC地址。所以，在一个虚拟路由 器中，不管谁是MASTER，对外都是相同的MAC和IP(称之为VIP)。客户端主机并不需要因为MASTER的改变而修改自己的路由配置，对客户端来说，这种主从的切换是透明的。<br>在一个虚拟路由器中，只有作为MASTER的VRRP路由器会一直发送VRRP通告信息(VRRPAdvertisement message)，BACKUP不会抢占MASTER，除非它的优先级(priority)更高。当MASTER不可用时(BACKUP收不到通告信息)， 多台BACKUP中优先级最高的这台会被抢占为MASTER。这种抢占是非常快速的(&lt;1s)，以保证服务的连续性。由于安全性考虑，VRRP包使用了加密协议进行加密。</p>
+</blockquote>
+<h3 id="4-VRRP-工作流程"><a href="#4-VRRP-工作流程" class="headerlink" title="4.VRRP 工作流程"></a>4.VRRP 工作流程</h3><h4 id="1-初始化："><a href="#1-初始化：" class="headerlink" title="(1).初始化："></a>(1).初始化：</h4><p><br>路由器启动时，如果路由器的优先级是255(最高优先级，路由器拥有路由器地址)，要发送VRRP通告信息，并发送广播ARP信息通告路由器IP地址对应的MAC地址为路由虚拟MAC，设置通告信息定时器准备定时发送VRRP通告信息，转为MASTER状态；否则进入BACKUP状态，设置定时器检查定时检查是否收到MASTER的通告信息。</p>
+<h4 id="2-Master"><a href="#2-Master" class="headerlink" title="(2).Master"></a>(2).Master</h4><ul>
+<li>设置定时通告定时器；</li>
+<li>用VRRP虚拟MAC地址响应路由器IP地址的ARP请求；</li>
+<li>转发目的MAC是VRRP虚拟MAC的数如果是虚拟路由器IP的拥有者，将接受目的地址是虚拟路由器IP的数据当收到shutdown的事件时删除定时通告定时器，发送优先权&lt;级为0的如果定时通告定时器超时时，发送VRRP通告信息；</li>
+<li>收到VRRP通告信息时，如果优先权为0，发送VRRP通告信息；否则判断数据的优先级是否高于本机，或相等而且实际IP地址大于本地实际IP，设置定时通告定时器，复位主机超时定时器，转BACKUP状态；否则的话，丢弃该通告包；</li>
+</ul>
+<h4 id="3-Backup"><a href="#3-Backup" class="headerlink" title="(3).Backup"></a>(3).Backup</h4><ul>
+<li>设置主机超时定时器；</li>
+<li>不能响应针对虚拟路由器IP的ARP请求信息；</li>
+<li>丢弃所有目的MAC地址是虚拟路由器MAC地址的数据包；</li>
+<li>不接受目的是虚拟路由器IP的所有数据包；</li>
+<li>当收到shutdown的事件时删除主机超时定时器，转初始化状态；</li>
+<li>主机超时定时器超时的时候，发送VRRP通告信息，广播ARP地址信息，转MASTER状态；</li>
+<li>收到VRRP通告信息时，如果优先权为0，表示进入MASTER选举；否则判断数据的优先级是否高于本机，如果高的话承认MASTER有效，复位主机超时定时器；否则的话，丢弃该通告包；</li>
+</ul>
+<h3 id="5-ARP查询处理"><a href="#5-ARP查询处理" class="headerlink" title="5.ARP查询处理"></a>5.ARP查询处理</h3><blockquote>
+<p>当内部主机通过ARP查询虚拟路由器IP地址对应的MAC地址时，MASTER路由器回复的MAC地址为虚拟的VRRP的MAC地址，而不是实际网卡的 MAC地址，这样在路由器切换时让内网机器觉察不到；而在路由器重新启动时，不能主动发送本机网卡的实际MAC地址。如果虚拟路由器开启的ARP代理 (proxy_arp)功能，代理的ARP回应也回应VRRP虚拟</p>
+<p>MAC地址；好了VRRP的简单讲解就到这里，我们下来讲解一下Keepalived的案例。</p>
+</blockquote>
+<h2 id="keepalived搭建"><a href="#keepalived搭建" class="headerlink" title="keepalived搭建"></a>keepalived搭建</h2><h5 id="1-上传或下载-keepalived"><a href="#1-上传或下载-keepalived" class="headerlink" title="1. 上传或下载 keepalived"></a>1. 上传或下载 keepalived</h5><p>下载地址： <a target="_blank" rel="noopener" href="https://www.keepalived.org/download.html">https://www.keepalived.org/download.html</a></p>
+<p>将keepalived-2.2.7.tar.gz 上传到服务器的 &#x2F;usr&#x2F;local&#x2F;src 目录</p>
+<h5 id="2-解压安装"><a href="#2-解压安装" class="headerlink" title="2. 解压安装"></a>2. 解压安装</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cd /usr/local/src</span></span><br><span class="line"><span class="comment"># tar -zxvf keepalived-2.2.7.tar.gz</span></span><br><span class="line"><span class="comment"># cd keepalived-2.2.7</span></span><br><span class="line"><span class="comment"># ./configure --prefix=/usr/local/keepalived</span></span><br><span class="line"><span class="comment"># make &amp;&amp; make install</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="3-将-keepalived-安装成-Linux-系统服务"><a href="#3-将-keepalived-安装成-Linux-系统服务" class="headerlink" title="3. 将 keepalived 安装成 Linux 系统服务"></a>3. 将 keepalived 安装成 Linux 系统服务</h5><p>因为没有使用 keepalived 的默认路径安装（默认是&#x2F;usr&#x2F;local） ,安装完成之后，需要做一些工作复制默认配置文件到默认路径</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># mkdir /etc/keepalived</span></span><br><span class="line"><span class="comment"># cp /usr/local/keepalived/etc/keepalived/keepalived.conf /etc/keepalived/</span></span><br></pre></td></tr></table></figure>
+
+<p>复制 keepalived 服务脚本到默认的地址</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cp /usr/local/keepalived/etc/rc.d/init.d/keepalived /etc/init.d/</span></span><br><span class="line"><span class="comment"># cp /usr/local/keepalived/etc/sysconfig/keepalived /etc/sysconfig/</span></span><br><span class="line"><span class="comment"># ln -s /usr/local/sbin/keepalived /usr/sbin/</span></span><br><span class="line"><span class="comment"># ln -s /usr/local/keepalived/sbin/keepalived /sbin/</span></span><br></pre></td></tr></table></figure>
+
+<p>设置 keepalived 服务开机启动</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># chkconfig keepalived on</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="4-修改-Keepalived-配置文件"><a href="#4-修改-Keepalived-配置文件" class="headerlink" title="4. 修改 Keepalived 配置文件"></a>4. 修改 Keepalived 配置文件</h5><p>Master 节点配置&amp;#x20;</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/keepalived/keepalived.conf</span></span><br><span class="line">! Configuration File <span class="keyword">for</span> keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">	<span class="comment">## keepalived 自带的邮件提醒需要开启 sendmail 服务。 建议用独立的监控或第三方 SMTP</span></span><br><span class="line">	router_id liuyazhuang133 <span class="comment">## 标识本节点的字条串，通常为 hostname</span></span><br><span class="line">&#125; </span><br><span class="line"><span class="comment">## keepalived 会定时执行脚本并对脚本执行的结果进行分析，动态调整 vrrp_instance 的优先级。如果脚本执行结果为 0，并且 weight 配置的值大于 0，则优先级相应的增加。如果脚本执行结果非 0，并且 weight配置的值小于 0，则优先级相应的减少。其他情况，维持原本配置的优先级，即配置文件中 priority 对应的值。</span></span><br><span class="line">vrrp_script chk_nginx &#123;</span><br><span class="line">	script <span class="string">&quot;/etc/keepalived/nginx_check.sh&quot;</span> <span class="comment">## 检测 nginx 状态的脚本路径</span></span><br><span class="line">	interval 2 <span class="comment">## 检测时间间隔</span></span><br><span class="line">	weight -20 <span class="comment">## 如果条件成立，权重-20</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">## 定义虚拟路由， VI_1 为虚拟路由的标示符，自己定义名称</span></span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">	state MASTER <span class="comment">## 主节点为 MASTER， 对应的备份节点为 BACKUP</span></span><br><span class="line">	interface eth0 <span class="comment">## 绑定虚拟 IP 的网络接口，与本机 IP 地址所在的网络接口相同， 我的是 eth0</span></span><br><span class="line">	virtual_router_id 33 <span class="comment">## 虚拟路由的 ID 号， 两个节点设置必须一样， 可选 IP 最后一段使用, 相同的 VRID 为一个组，他将决定多播的 MAC 地址</span></span><br><span class="line">	mcast_src_ip 192.168.50.133 <span class="comment">## 本机 IP 地址</span></span><br><span class="line">	priority 100 <span class="comment">## 节点优先级， 值范围 0-254， MASTER 要比 BACKUP 高</span></span><br><span class="line">	nopreempt <span class="comment">## 优先级高的设置 nopreempt 解决异常恢复后再次抢占的问题</span></span><br><span class="line">	advert_int 1 <span class="comment">## 组播信息发送间隔，两个节点设置必须一样， 默认 1s</span></span><br><span class="line">	<span class="comment">## 设置验证信息，两个节点必须一致</span></span><br><span class="line">	authentication &#123;</span><br><span class="line">		auth_type PASS</span><br><span class="line">		auth_pass 1111 <span class="comment">## 真实生产，按需求对应该过来</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="comment">## 将 track_script 块加入 instance 配置块</span></span><br><span class="line">	track_script &#123;</span><br><span class="line">		chk_nginx <span class="comment">## 执行 Nginx 监控的服务</span></span><br><span class="line">	&#125; <span class="comment">#</span></span><br><span class="line">	<span class="comment"># 虚拟 IP 池, 两个节点设置必须一样</span></span><br><span class="line">	virtual_ipaddress &#123;</span><br><span class="line">		192.168.50.130 <span class="comment">## 虚拟 ip，可以定义多个</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>BACKUP 节点配置文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/keepalived/keepalived.conf</span></span><br><span class="line">! Configuration File <span class="keyword">for</span> keepalived</span><br><span class="line">global_defs &#123;</span><br><span class="line">	router_id liuyazhuang134</span><br><span class="line">&#125;</span><br><span class="line">vrrp_script chk_nginx &#123;</span><br><span class="line">	script <span class="string">&quot;/etc/keepalived/nginx_check.sh&quot;</span></span><br><span class="line">	interval 2</span><br><span class="line">	weight -20</span><br><span class="line">&#125;</span><br><span class="line">vrrp_instance VI_1 &#123;</span><br><span class="line">	state BACKUP</span><br><span class="line">	interface eth1</span><br><span class="line">	virtual_router_id 33</span><br><span class="line">	mcast_src_ip 192.168.50.134</span><br><span class="line">	priority 90</span><br><span class="line">	advert_int 1</span><br><span class="line">	authentication &#123;</span><br><span class="line">		auth_type PASS</span><br><span class="line">		auth_pass 1111</span><br><span class="line">	&#125;</span><br><span class="line">	track_script &#123;</span><br><span class="line">		chk_nginx</span><br><span class="line">	&#125;</span><br><span class="line">	virtual_ipaddress &#123;</span><br><span class="line">		192.168.50.130</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="5-编写-Nginx-状态检测脚本"><a href="#5-编写-Nginx-状态检测脚本" class="headerlink" title="5. 编写 Nginx 状态检测脚本"></a>5. 编写 Nginx 状态检测脚本</h5><p>编写 Nginx 状态检测脚本 &#x2F;etc&#x2F;keepalived&#x2F;nginx_check.sh (已在 keepalived.conf 中配置)脚本要求：如果 nginx 停止运行，尝试启动，如果无法启动则杀死本机的 keepalived 进程， keepalied将虚拟 ip 绑定到 BACKUP 机器上。 内容如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># vi /etc/keepalived/nginx_check.sh</span></span><br><span class="line"><span class="comment">#!/bin/bash</span></span><br><span class="line">A=`ps -C nginx –no-header |<span class="built_in">wc</span> -l`</span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$A</span> -eq 0 ];<span class="keyword">then</span></span><br><span class="line">    /usr/local/nginx/sbin/nginx</span><br><span class="line">    <span class="built_in">sleep</span> 2</span><br><span class="line">    <span class="keyword">if</span> [ `ps -C nginx --no-header |<span class="built_in">wc</span> -l` -eq 0 ];<span class="keyword">then</span></span><br><span class="line">	    killall keepalived</span><br><span class="line">    <span class="keyword">fi</span></span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+
+<h5 id="6-启动-Keepalived"><a href="#6-启动-Keepalived" class="headerlink" title="6. 启动 Keepalived"></a>6. 启动 Keepalived</h5><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># systemctl start keepalived </span></span><br><span class="line">Starting keepalived: [ OK ]</span><br></pre></td></tr></table></figure>
+
+</article><div class="post-copyright"><div class="post-copyright__title"><span class="post-copyright-info"><h></h></span></div><div class="post-copyright__type"><span class="post-copyright-info"><a href="http://example.com/posts/0.html">http://example.com/posts/0.html</a></span></div><div class="post-copyright-m"><div class="post-copyright-m-info"><div class="post-copyright-a"><h>作者</h><div class="post-copyright-cc-info"><h>M Zhang</h></div></div><div class="post-copyright-c"><h>发布于</h><div class="post-copyright-cc-info"><h>2023-03-01</h></div></div><div class="post-copyright-u"><h>更新于</h><div class="post-copyright-cc-info"><h>2023-03-01</h></div></div><div class="post-copyright-c"><h>许可协议</h><div class="post-copyright-cc-info"><a class="icon" rel="noopener" target="_blank" title="Creative Commons" href="https://creativecommons.org/"><i class="fab fa-creative-commons"></i></a><a rel="noopener" target="_blank" title="CC BY-NC-SA 4.0" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a></div></div></div></div></div><div class="tag_share"><div class="post-meta__tag-list"></div><div class="post_share"><div class="social-share" data-image="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resourcel8mlyy.jpg?x-oss-process=style/webp" data-sites="wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.staticfile.org/butterfly-extsrc/1.1.3/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.staticfile.org/butterfly-extsrc/1.1.3/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/posts/4a17b156.html"><img class="next-cover" src="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resourcel8mlyy.jpg?x-oss-process=style/webp" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">下一篇</div><div class="next_info">Hello World</div></div></a></div></nav><hr/><div id="post-comment"><div class="comment-head"><div class="comment-headline"><i class="fas fa-comments fa-fw"></i><span> 评论</span></div></div><div class="comment-wrap"><div><div id="waline-wrap"></div></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resource20220906115559_aff77.jpg?x-oss-process=style/webp" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">M Zhang</div><div class="author-info__description"></div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">2</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">3</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">1</div></a></div><div class="card-info-social-icons is-center"><a class="social-icon" href="mailto:together.en@gmail.com" target="_blank" title="Email"><i class="fas fa-envelope"></i></a></div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keepalive%E7%AE%80%E4%BB%8B%EF%BC%9A"><span class="toc-number">3.</span> <span class="toc-text">keepalive简介：</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-Keepalived-%E5%AE%9A%E4%B9%89"><span class="toc-number">3.1.</span> <span class="toc-text">1.Keepalived 定义</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-VRRP-%E5%8D%8F%E8%AE%AE%E7%AE%80%E4%BB%8B"><span class="toc-number">3.2.</span> <span class="toc-text">2.VRRP 协议简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-VRRP-%E5%B7%A5%E4%BD%9C%E6%9C%BA%E5%88%B6"><span class="toc-number">3.3.</span> <span class="toc-text">3.VRRP 工作机制</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-VRRP-%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">3.4.</span> <span class="toc-text">4.VRRP 工作流程</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-%E5%88%9D%E5%A7%8B%E5%8C%96%EF%BC%9A"><span class="toc-number">3.4.1.</span> <span class="toc-text">(1).初始化：</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-Master"><span class="toc-number">3.4.2.</span> <span class="toc-text">(2).Master</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-Backup"><span class="toc-number">3.4.3.</span> <span class="toc-text">(3).Backup</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-ARP%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86"><span class="toc-number">3.5.</span> <span class="toc-text">5.ARP查询处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#keepalived%E6%90%AD%E5%BB%BA"><span class="toc-number">4.</span> <span class="toc-text">keepalived搭建</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#1-%E4%B8%8A%E4%BC%A0%E6%88%96%E4%B8%8B%E8%BD%BD-keepalived"><span class="toc-number">4.0.0.1.</span> <span class="toc-text">1. 上传或下载 keepalived</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#2-%E8%A7%A3%E5%8E%8B%E5%AE%89%E8%A3%85"><span class="toc-number">4.0.0.2.</span> <span class="toc-text">2. 解压安装</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#3-%E5%B0%86-keepalived-%E5%AE%89%E8%A3%85%E6%88%90-Linux-%E7%B3%BB%E7%BB%9F%E6%9C%8D%E5%8A%A1"><span class="toc-number">4.0.0.3.</span> <span class="toc-text">3. 将 keepalived 安装成 Linux 系统服务</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#4-%E4%BF%AE%E6%94%B9-Keepalived-%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="toc-number">4.0.0.4.</span> <span class="toc-text">4. 修改 Keepalived 配置文件</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#5-%E7%BC%96%E5%86%99-Nginx-%E7%8A%B6%E6%80%81%E6%A3%80%E6%B5%8B%E8%84%9A%E6%9C%AC"><span class="toc-number">4.0.0.5.</span> <span class="toc-text">5. 编写 Nginx 状态检测脚本</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#6-%E5%90%AF%E5%8A%A8-Keepalived"><span class="toc-number">4.0.0.6.</span> <span class="toc-text">6. 启动 Keepalived</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/posts/0.html" title="无题"><img src="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resourcel8mlyy.jpg?x-oss-process=style/webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="无题"/></a><div class="content"><a class="title" href="/posts/0.html" title="无题">无题</a><time datetime="2023-03-01T10:00:32.850Z" title="发表于 2023-03-01 18:00:32">2023-03-01</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/posts/4a17b156.html" title="Hello World"><img src="https://zm-blog.oss-cn-hangzhou.aliyuncs.com/resourcel8mlyy.jpg?x-oss-process=style/webp" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="Hello World"/></a><div class="content"><a class="title" href="/posts/4a17b156.html" title="Hello World">Hello World</a><time datetime="2022-12-13T01:56:00.000Z" title="发表于 2022-12-13 09:56:00">2022-12-13</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="icp"><a target="_blank" rel="noopener" href="http://www.beian.miit.gov.cn/"><img class="icp-icon" src="http://www.beian.gov.cn/img/new/gongan.png"/><span>苏ICP备2022028899号-1</span></a></div><div class="copyright">&copy;2022 - 2023 By M Zhang</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="translateLink" type="button" title="简繁转换">繁</button><button id="darkmode" type="button" title="浅色和深色模式转换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="chat_btn" type="button" title="聊天"><i class="fas fa-sms"></i></button><a id="to_comment" href="#post-comment" title="直达评论"><i class="fas fa-comments"></i></a><button id="go-up" type="button" title="回到顶部"><i class="fas fa-arrow-up"></i></button></div></div><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">搜索</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  数据库加载中</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="搜索文章" type="text"/></div></div><hr/><div id="local-search-results"></div></div></div><div id="search-mask"></div></div><div><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.5.1/js/utils.min.js"></script><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.5.1/js/main.min.js"></script><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.5.1/js/tw_cn.min.js"></script><script src="https://cdn.staticfile.org/medium-zoom/1.0.6/medium-zoom.min.js"></script><script src="https://cdn.staticfile.org/instant.page/5.1.1/instantpage.min.js" type="module"></script><script src="https://cdn.staticfile.org/node-snackbar/0.1.16/snackbar.min.js"></script><script>function panguFn () {
+  if (typeof pangu === 'object') pangu.autoSpacingPage()
+  else {
+    getScript('https://cdn.staticfile.org/pangu/4.0.7/pangu.min.js')
+      .then(() => {
+        pangu.autoSpacingPage()
+      })
+  }
+}
+
+function panguInit () {
+  if (true){
+    GLOBAL_CONFIG_SITE.isPost && panguFn()
+  } else {
+    panguFn()
+  }
+}
+
+document.addEventListener('DOMContentLoaded', panguInit)</script><script src="https://cdn.staticfile.org/hexo-theme-butterfly/4.5.1/js/search/local-search.min.js"></script><div class="js-pjax"><script>function loadWaline () {
+  function insertCSS () {
+    const link = document.createElement("link")
+    link.rel = "stylesheet"
+    link.href = "https://cdn.staticfile.org/waline/2.13.0/waline.min.css"
+    document.head.appendChild(link)
+  }
+
+  function initWaline () {
+    const waline = Waline.init(Object.assign({
+      el: '#waline-wrap',
+      serverURL: 'https://waline.oncepie.com/',
+      pageview: false,
+      dark: 'html[data-theme="dark"]',
+      path: window.location.pathname,
+      comment: false,
+    }, null))
+  }
+
+  if (typeof Waline === 'function') initWaline()
+  else {
+    insertCSS()
+    getScript('https://cdn.staticfile.org/waline/2.13.0/waline.min.js').then(initWaline)
+  }
+}
+
+if ('Waline' === 'Waline' || !true) {
+  if (true) btf.loadComment(document.getElementById('waline-wrap'),loadWaline)
+  else setTimeout(loadWaline, 0)
+} else {
+  function loadOtherComment () {
+    loadWaline()
+  }
+}</script></div><div class="aplayer no-destroy" data-id="7089600448" data-server="netease" data-type="playlist" data-fixed="true" data-autoplay="true" data-order="random"> </div><script id="canvas_nest" defer="defer" color="0,0,255" opacity="0.7" zIndex="-1" count="99" mobile="false" src="https://cdn.staticfile.org/butterfly-extsrc/1.1.3/canvas-nest.min.js"></script><script src="https://cdn.staticfile.org/butterfly-extsrc/1.1.3/activate-power-mode.min.js"></script><script>POWERMODE.colorful = true;
+POWERMODE.shake = true;
+POWERMODE.mobile = false;
+document.body.addEventListener('input', POWERMODE);
+</script><script>((window.gitter = {}).chat = {}).options = {
+  disableDefaultChat: true,
+};
+document.addEventListener('gitter-sidecar-ready', (e) => {
+  const GitterChat = e.detail.Chat
+  let chat
+
+  function initGitter () {
+    chat = new GitterChat({
+      room: 'oncepie/community',
+      activationElement: '#chat_btn'
+    });
+  }
+
+  initGitter()
+
+  if (true) {
+    document.addEventListener('pjax:complete', () => {
+      chat.destroy()
+      initGitter()
+    })
+  }
+
+})</script><script src="https://sidecar.gitter.im/dist/sidecar.v1.js" async="async" defer="defer"></script><link rel="stylesheet" href="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.css" media="print" onload="this.media='all'"><script src="https://cdn.staticfile.org/aplayer/1.10.1/APlayer.min.js"></script><script src="https://cdn.staticfile.org/butterfly-extsrc/1.1.3/metingjs/dist/Meting.min.js"></script><script src="https://cdn.staticfile.org/pjax/0.2.8/pjax.min.js"></script><script>let pjaxSelectors = ["head > title","#config-diff","#body-wrap","#rightside-config-hide","#rightside-config-show",".js-pjax"]
+
+var pjax = new Pjax({
+  elements: 'a:not([target="_blank"])',
+  selectors: pjaxSelectors,
+  cacheBust: false,
+  analytics: false,
+  scrollRestoration: false
+})
+
+document.addEventListener('pjax:send', function () {
+
+  // removeEventListener scroll 
+  window.tocScrollFn && window.removeEventListener('scroll', window.tocScrollFn)
+  window.scrollCollect && window.removeEventListener('scroll', scrollCollect)
+
+  document.getElementById('rightside').style.cssText = "opacity: ''; transform: ''"
+  
+  if (window.aplayers) {
+    for (let i = 0; i < window.aplayers.length; i++) {
+      if (!window.aplayers[i].options.fixed) {
+        window.aplayers[i].destroy()
+      }
+    }
+  }
+
+  typeof typed === 'object' && typed.destroy()
+
+  //reset readmode
+  const $bodyClassList = document.body.classList
+  $bodyClassList.contains('read-mode') && $bodyClassList.remove('read-mode')
+
+  typeof disqusjs === 'object' && disqusjs.destroy()
+})
+
+document.addEventListener('pjax:complete', function () {
+  window.refreshFn()
+
+  document.querySelectorAll('script[data-pjax]').forEach(item => {
+    const newScript = document.createElement('script')
+    const content = item.text || item.textContent || item.innerHTML || ""
+    Array.from(item.attributes).forEach(attr => newScript.setAttribute(attr.name, attr.value))
+    newScript.appendChild(document.createTextNode(content))
+    item.parentNode.replaceChild(newScript, item)
+  })
+
+  GLOBAL_CONFIG.islazyload && window.lazyLoadInstance.update()
+
+  typeof chatBtnFn === 'function' && chatBtnFn()
+  typeof panguInit === 'function' && panguInit()
+
+  // google analytics
+  typeof gtag === 'function' && gtag('config', '', {'page_path': window.location.pathname});
+
+  // baidu analytics
+  typeof _hmt === 'object' && _hmt.push(['_trackPageview',window.location.pathname]);
+
+  typeof loadMeting === 'function' && document.getElementsByClassName('aplayer').length && loadMeting()
+
+  // prismjs
+  typeof Prism === 'object' && Prism.highlightAll()
+})
+
+document.addEventListener('pjax:error', (e) => {
+  if (e.request.status === 404) {
+    pjax.loadUrl('/404.html')
+  }
+})</script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
