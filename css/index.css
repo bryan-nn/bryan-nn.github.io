@@ -3297,7 +3297,6 @@ h1.page-title + .tag-cloud-list {
 }
 #footer {
   position: relative;
-  background: #49b1f5;
   background-attachment: scroll;
   background-position: bottom;
   background-size: cover;
@@ -4338,56 +4337,6 @@ h1.page-title + .tag-cloud-list {
 }
 [data-theme="dark"] .post-copyright-info {
   color: #e0e0e4;
-}
-#post .post-copyright__title {
-  font-size: 22px;
-}
-#post .post-copyright__notice {
-  font-size: 15px;
-}
-#post .post-copyright {
-  -webkit-box-shadow: 2px 2px 5px;
-  box-shadow: 2px 2px 5px;
-}
-@-moz-keyframes flashlight {
-  from {
-    -webkit-box-shadow: 0 0 5px #1478d2;
-    box-shadow: 0 0 5px #1478d2;
-  }
-  to {
-    -webkit-box-shadow: 0 0 2px #1478d2;
-    box-shadow: 0 0 2px #1478d2;
-  }
-}
-@-webkit-keyframes flashlight {
-  from {
-    -webkit-box-shadow: 0 0 5px #1478d2;
-    box-shadow: 0 0 5px #1478d2;
-  }
-  to {
-    -webkit-box-shadow: 0 0 2px #1478d2;
-    box-shadow: 0 0 2px #1478d2;
-  }
-}
-@-o-keyframes flashlight {
-  from {
-    -webkit-box-shadow: 0 0 5px #1478d2;
-    box-shadow: 0 0 5px #1478d2;
-  }
-  to {
-    -webkit-box-shadow: 0 0 2px #1478d2;
-    box-shadow: 0 0 2px #1478d2;
-  }
-}
-@keyframes flashlight {
-  from {
-    -webkit-box-shadow: 0 0 5px #1478d2;
-    box-shadow: 0 0 5px #1478d2;
-  }
-  to {
-    -webkit-box-shadow: 0 0 2px #1478d2;
-    box-shadow: 0 0 2px #1478d2;
-  }
 }
 .relatedPosts {
   margin-top: 40px;

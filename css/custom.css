@@ -51,3 +51,288 @@ img {
     background-color: #49b1f5;
   }
   
+  .layout {
+    max-width: 1280px;
+ }
+  /*文章页目录卡片圆角*/
+  #aside-content .card-widget {
+  border-radius: 20px;
+  }
+  /*文章页目录美化*/
+  #aside-content .card-widget {
+  padding: 2rem 1.2rem; /*前者为上下边距，后者为左右边距*/
+}
+/*文章相关推荐卡片美化*/
+.relatedPosts > .relatedPosts-list > div {
+  border-radius: 20px;
+}
+#aside-content #card-toc .toc-content .toc-link.active {
+  background: #669cbe;
+  border-radius: 5px;
+}
+
+/* 版权信息 */
+/* 背景 */
+#post .post-copyright {
+  background: var(--heo-card-bg);
+  padding: 2rem 1.3rem;
+  overflow: hidden;
+  border: var(--style-border);
+  border-width: 1px;
+  transition: 0.3s;
+  border-radius: 11px;
+}
+
+#post .post-copyright:after {
+  position: absolute;
+  right: 22px;
+  top: -77px;
+  content: '\f25e';
+  font-size: 180px;
+  font-family: 'Font Awesome 5 Brands';
+  color: var(--heo-fontcolor);
+  opacity: 0.4;
+  filter: blur(7px);
+}
+
+@media screen and (max-width: 768px) {
+  #post .post-copyright {
+    padding: 1rem 1.3rem;
+  }
+}
+
+.post-copyright__author {
+  display: flex;
+  align-items: center;
+}
+
+.post-copyright__original {
+  background: var(--heo-fontcolor);
+  color: var(--heo-card-bg);
+  padding: 0.2rem 0.5rem;
+  font-size: 0.7rem;
+  border-radius: 8px;
+  margin-right: 0.5rem;
+  font-weight: bold;
+  line-height: 1.5;
+  white-space: nowrap;
+}
+
+.post-copyright__original:hover {
+  background: var(--heo-main);
+  color: var(--heo-white);
+}
+
+@media screen and (max-width: 768px) {
+  #post .post-copyright {
+    box-shadow: var(--heo-shadow-border);
+  }
+
+  .post-copyright .post-meta-original {
+    display: none;
+  }
+
+  .post-copyright__original {
+    display: none;
+  }
+
+  #post .post-copyright:after {
+    display: none;
+  }
+}
+
+
+/* 作者名 */
+#post .post-copyright .post-copyright-info a {
+  padding: 0;
+  color: var(--heo-fontcolor);
+  font-weight: bold;
+}
+
+#post .post-copyright .post-copyright__notice .post-copyright-info a {
+  padding: 0 4px;
+}
+
+#post .post-copyright .post-copyright-info a:hover {
+  color: var(--heo-lighttext);
+}
+
+#post .post-copyright .post-copyright-info {
+  padding-left: 0;
+  color: var(--heo-fontcolor);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+#post .post-copyright .post-copyright-title {
+  padding-left: 0;
+  color: var(--heo-fontcolor);
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+#post .post-copyright .post-copyright-title:hover {
+  color: var(--heo-lighttext);
+}
+
+#post>div.post-copyright>div.post-copyright__author>span>span {
+  padding: 0;
+  color: var(--heo-fontcolor);
+  font-weight: bold;
+  font-size: 1rem;
+  line-height: 1.38;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+
+@media screen and (max-width: 768px) {
+  #post>div.post-copyright>div.post-copyright__author>span>span {
+    -webkit-line-clamp: 3;
+  }
+
+  #post .post-copyright .post-copyright-info {
+    -webkit-line-clamp: 2;
+  }
+
+  #post .post-copyright .post-copyright-title {
+    -webkit-line-clamp: 3;
+    line-height: 1.2;
+  }
+}
+
+/* 链接 */
+#post>div.post-copyright>div.post-copyright__type {
+  line-height: 16px;
+  display: flex;
+  margin-top: 8px;
+}
+
+#post>div.post-copyright>div.post-copyright__type>span>a {
+  font-size: 14px;
+  opacity: 0.6;
+  line-height: 16px;
+}
+
+#post>div.post-copyright>div.post-copyright__type>span>a:hover {
+  opacity: 1;
+  background: none;
+}
+
+#post-copyright-url a {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+/* 提示 */
+#post>div.post-copyright>div.post-copyright__notice {
+  font-size: 0.7rem;
+  line-height: 1rem;
+  margin: 0.5rem 0;
+}
+/*装饰圈*/
+#post .post-copyright:before {
+  display: none;
+}
+
+#post .post-copyright .post-copyright-meta {
+    color: #5a7ed7;
+    font-weight: bold;
+}
+#post .post-copyright {
+    padding: 2rem 1.3rem;
+    border-radius: 11px;
+    border-style: solid;
+}
+
+
+
+
+
+
+/* 文章目录 */
+#aside-content #card-toc .toc-content {
+  margin: 10px -18px;
+}
+ #aside-content #card-toc .toc-content .toc-link.active {
+  line-height: 1.2;
+  border-radius: 12px;
+  border-left-color: var(--heo-hovertext);
+  background-color: var(--heo-card-bg);
+  color: var(--heo-lighttext);
+  font-weight: bold;
+  font-size: 13px;
+}
+[data-theme=dark].toc .toc-item.active .toc-link .toc-text {
+  color: var(--heo-white);
+}
+#aside-content #card-toc .toc-content .toc-item.active .toc-link {
+  opacity: 1;
+  border-radius: 8px;
+}
+#aside-content #card-toc .toc-content .toc-link {
+  line-height: 1.2;
+  padding: 8px;
+  border-left: 0px solid transparent;
+  border-radius: 12px;
+  color: var(--heo-secondtext);
+  cursor: default;
+}
+#aside-content #card-toc .toc-content .toc-link:not(.active) span {
+  opacity: 0.6;
+  cursor: pointer;
+  filter: blur(1px);
+  transition: 0.3s;
+}
+#aside-content #card-toc:hover .toc-content .toc-link:not(.active) span {
+  filter: blur(0px);
+  opacity: 1;
+}
+#aside-content #card-toc .toc-content .toc-link:not(.active) span:hover {
+  color: var(--heo-lighttext);
+}
+
+
+
+
+
+
+
+
+
+/*版权卡片美化*/
+#post .post-copyright {
+  position: relative;
+  margin: 2rem 0 0.5rem;
+  padding: 1.5rem 0.8rem;
+  border: 8px solid #f6f6f6; /*卡片边框*/
+  border-radius: 20px; /*边框圆角*/
+  }
+  #post .post-copyright:before {
+  position: absolute;
+  top: -1.9rem; /*C位置*/
+  color: #49b1f540; /*C颜色*/
+  font-size: 6rem; /*C大小*/
+  }
+
+
+
+  /*文章相关推荐卡片美化*/
+.relatedPosts > .relatedPosts-list > div {
+  border-radius: 20px;
+}
+
+
+
+ /*首页文章卡片高度*/
+#recent-posts > .recent-post-item {
+  height: 16em;
+}
